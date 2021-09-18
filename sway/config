@@ -40,7 +40,7 @@ exec swaybg -i /home/bhx/Pictures/bg0.jpg
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
-always_exec mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
+exec_always mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
 bindsym XF86AudioRaiseVolume exec /home/bhx/local/bin/pamixer -ui 2 && /home/bhx/local/bin/pamixer --get-volume > $WOBSOCK
 bindsym XF86AudioLowerVolume exec /home/bhx/local/bin/pamixer -ud 2 && /home/bhx/local/bin/pamixer --get-volume > $WOBSOCK
 bindsym XF86AudioMute exec /home/bhx/local/bin/pamixer --toggle-mute && ( /home/bhx/local/bi/pamixer --get-mute && echo 0 > $WOBSOCK ) || pamixer --get-volume > $WOBSOCKexec pamixer -ui 2 && pamixer --get-volume > $WOBSOCK
@@ -68,7 +68,7 @@ bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
-bindsym $mod+x exec swaylock
+bindsym $mod+x exec 'swaylock --image /home/bhx/Pictures/lock.jpg'
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
