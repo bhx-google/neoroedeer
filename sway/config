@@ -32,15 +32,16 @@ exec --no-startup-id nm-applet
 exec dex -ae i3
 
 exec swayidle -w \
-    timeout 300 'swaylock --image /home/bhx/Pictures/lock.jpg'\
-    timeout 305 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"'
+    lock 'swaylock --image /home/bhx/Pictures/lock.jpg' \
+    before-sleep 'swaylock --image /home/bhx/Pictures/lock.jpg'
 exec swaybg -i /home/bhx/Pictures/bg0.jpg
+exec wl-paste -t text --watch clipman store
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
 exec_always mkfifo $WOBSOCK && tail -f $WOBSOCK | wob
+exec_always xdg-settings set default-web-browser firefox-esr.desktop
 bindsym XF86AudioRaiseVolume exec /home/bhx/local/bin/pamixer -ui 2 && /home/bhx/local/bin/pamixer --get-volume > $WOBSOCK
 bindsym XF86AudioLowerVolume exec /home/bhx/local/bin/pamixer -ud 2 && /home/bhx/local/bin/pamixer --get-volume > $WOBSOCK
 bindsym XF86AudioMute exec /home/bhx/local/bin/pamixer --toggle-mute && ( /home/bhx/local/bi/pamixer --get-mute && echo 0 > $WOBSOCK ) || pamixer --get-volume > $WOBSOCKexec pamixer -ui 2 && pamixer --get-volume > $WOBSOCK
@@ -116,9 +117,9 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
+set $ws1 "1:docs"
+set $ws2 "2:cloudtop"
+set $ws3 "3:wiki"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
