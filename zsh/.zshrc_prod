@@ -11,3 +11,5 @@ clr[icons]=124
 clr[tip]=124
 clr[stale]=124
 clr[p4head]=124
+
+export PATH=$PATH:~/.local/bin
