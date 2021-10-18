@@ -1,0 +1,33 @@
+set hostname="google.com"
+set folder="imaps://imap.gmail.com/"
+set spoolfile="+INBOX"
+set postponed="+[Gmail]/Drafts"
+set copy=no
+set move=no
+unset record
+macro index,pager "\z" "<save-message>=[Gmail]/All Mail<enter><enter>" "Archive"
+#macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
+#macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
+
+# Header cache, to speed things up.
+set header_cache = /usr/local/google/home/$LOGNAME/Mail/mutt_header_cache
+set message_cachedir = /usr/local/google/home/$LOGNAME/Mail/mutt_message_cache
+
+# IMAP fine-tuning.
+unset imap_passive
+set imap_check_subscribed
+set mail_check=60
+
+# IMAP and SMTP authentication happens via oauth, using the helper script
+# described above. You will need to prodaccess in order for the script to work.
+set imap_authenticators="oauthbearer"
+set imap_user="`whoami`@google.com"
+set imap_oauth_refresh_command="/google/bin/releases/mutt-eng/corp_mail_oauth2/corp_mail_oauth2.par"
+
+set smtp_authenticators="oauthbearer"
+set smtp_url="smtps://`whoami`@google.com@smtp.gmail.com:465"
+set smtp_oauth_refresh_command="/google/bin/releases/mutt-eng/corp_mail_oauth2/corp_mail_oauth2.par"
+
+source mutt-colors-solarized/mutt-colors-solarized-light-16.muttrc
+auto_view text/x-vcard text/html text/enriched
+set trash='=[Gmail]/Trash'
