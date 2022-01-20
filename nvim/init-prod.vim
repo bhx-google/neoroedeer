@@ -54,7 +54,7 @@ call plug#end()
 
 " Appearance
 
-set termguicolors
+"set termguicolors
 set background=light
 color solarized
 set number

@@ -13,3 +13,4 @@ clr[stale]=124
 clr[p4head]=124
 
 export PATH=$PATH:~/.local/bin
+alias buildfix='/google/data/ro/teams/ads-integrity/buildfix'
