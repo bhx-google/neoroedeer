@@ -6,7 +6,7 @@ export cloudHome="/google/src/cloud/$USER"
 function workspace() {
   # Use :A parameter expansion to resolve symlinks to /google/src
   # http://zsh.sourceforge.net/Doc/Release/Expansion.html#index-parameter-expansion-flags
-  if [[ $PWD:A =~ "$cloudHome/([^/]+)" ]]; then
+  if [[ $1:A =~ "$cloudHome/([^/]+)" ]]; then
     echo ${match[1]}
   fi
 }
@@ -27,10 +27,10 @@ function source_pwd() {
 }
 
 function get_window_name() {
-  local name=$(workspace)
+  local name=$(workspace $1)
   if [[ -z $name ]]; then
-    basename $PWD
+      echo $(basename $1)
   else
-    echo "W:$name"
+      echo "W:$name"
   fi
 }
