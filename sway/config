@@ -24,6 +24,10 @@ font pango:monospace 12
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id dbus-update-activation-environment --all
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+#exec hash dbus-update-activation-environment 2>/dev/null && \
+#     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec --no-startup-id feh --bg-scale /home/bhx/Pictures/bg0.jpg
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
@@ -33,9 +37,10 @@ exec dex -ae i3
 
 exec swayidle -w \
     lock 'swaylock --image /home/bhx/Pictures/lock.jpg' \
+    timeout 240 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock --image /home/bhx/Pictures/lock.jpg'
 exec swaybg -i /home/bhx/Pictures/bg0.jpg
-exec wl-paste -t text --watch clipman store
+# exec wl-paste -t text --watch clipman store
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -63,6 +68,7 @@ bindsym $mod+d exec wofi --show drun
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
 # bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+p exec 'grim -g "$(slurp)" screenshot.png'
 
 # change focus
 bindsym $mod+j focus left
@@ -120,13 +126,13 @@ bindsym $mod+a focus parent
 set $ws1 "1:docs"
 set $ws2 "2:cloudtop"
 set $ws3 "3:wiki"
-set $ws4 "4"
+set $ws4 "4:IDE"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10"
+set $ws10 "10:Email"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
