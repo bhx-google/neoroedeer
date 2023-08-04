@@ -1,30 +1,48 @@
 " Plugins
 
-source /usr/share/vim/google/google.vim
+lua <<EOF
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    vim.cmd [[packadd packer.nvim]]
+    return true
+  end
+  return false
+end
 
-call plug#begin()
+local packer_bootstrap = ensure_packer()
 
-Plug 'vimwiki/vimwiki'
-Plug 'frankier/neovim-colors-solarized-truecolor-only'
-Plug 'vim-airline/vim-airline'
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'scrooloose/nerdcommenter'
-Plug 'frace/vim-bubbles'
-Plug 'vhdirk/vim-cmake'
-Plug 'tpope/vim-unimpaired'
-Plug 'mileszs/ack.vim'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'garbas/vim-snipmate'
-Plug 'honza/vim-snippets'
-Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'Valloric/YouCompleteMe'
-Plug 'mhinz/neovim-remote'
-Plug 'lervag/vimtex'
-Plug 'rdnetto/YCM-Generator'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+return require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim'
+  -- My plugins here
+  use 'vimwiki/vimwiki'
+  use 'frankier/neovim-colors-solarized-truecolor-only'
+  use 'vim-airline/vim-airline'
+  -- use 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+  use 'scrooloose/nerdcommenter'
+  use 'frace/vim-bubbles'
+  use 'vhdirk/vim-cmake'
+  use 'tpope/vim-unimpaired'
+  use 'mileszs/ack.vim'
+  use 'MarcWeber/vim-addon-mw-utils'
+  use 'tomtom/tlib_vim'
+  use 'garbas/vim-snipmate'
+  use 'honza/vim-snippets'
+  use 'easymotion/vim-easymotion'
+  use 'tpope/vim-fugitive'
+  use 'airblade/vim-gitgutter'
+  use 'mhinz/neovim-remote'
+  use 'lervag/vimtex'
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if packer_bootstrap then
+    require('packer').sync()
+  end
+end)
+EOF
 
 let g:airline_powerline_fonts = 1
 let g:ycm_server_python_interpreter = 'python3'
@@ -48,8 +66,6 @@ let g:vimwiki_list = [{
   \ 'custom_wiki2html': '$HOME/notes/wiki/wiki2html.sh',
   \ 'template_ext':'.html'
 \}]
-
-call plug#end()
 
 " Appearance
 

@@ -2,7 +2,8 @@
 
 {
   home.packages = [
-	pkgs.neovim
+    pkgs.neovim
+    pkgs.cmake
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -52,5 +53,11 @@
 		    . /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh;
 	    fi # added by Nix installer
     '';
+  };
+
+  home.file.initvim = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/nvim/init.vim";
+    target = "/usr/local/google/home/bhx/.config/nvim/init.vim";
   };
 }
