@@ -1,7 +1,12 @@
+if !empty('/google/src')
+  let environment = 'prod'
+else
+  let environment = 'corp'
+endif
+
 " Plugins
 
 source /usr/share/vim/google/google.vim
-Glug youcompleteme-google
 
 call plug#begin()
 
@@ -21,11 +26,30 @@ Plug 'honza/vim-snippets'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-"Plug 'Valloric/YouCompleteMe'
 Plug 'mhinz/neovim-remote'
 Plug 'lervag/vimtex'
-"Plug 'rdnetto/YCM-Generator'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+
+if environment == 'prod'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-nvim-lua'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'hrsh7th/cmp-vsnip'
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'onsails/lspkind.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'folke/trouble.nvim'
+  Plug 'sso://googler@user/piloto/cmp-nvim-ciderlsp'
+endif
+
+if environment == 'prod'
+  Glug buganizer plugin[mappings]
+end
+
+let g:snipMate = { 'snippet_version' : 1 }
 
 let g:airline_powerline_fonts = 1
 "let g:ycm_server_python_interpreter = 'python3'
@@ -70,16 +94,16 @@ noremap <silent> $ g$
 " file type
 syntax enable
 filetype plugin indent on
+
+au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
+\| exe "normal! g`\"" | endif
+
 au FileType make setlocal noexpandtab
 
 " file type specific tabs
 au FileType python setlocal tabstop=4 shiftwidth=4
 au FileType ruby setlocal tabstop=2 shiftwidth=2
 au FileType scala setlocal tabstop=2 shiftwidth=2
-
-
-au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= line("$")
-\| exe "normal! g`\"" | endif
 
 " indent and linebreaks
 set tabstop=4
@@ -169,3 +193,17 @@ map! <S-Insert> <MiddleMouse>
 
 " After whitespace, insert the current directory into a command-line path
 cnoremap <expr> <C-P> getcmdline()[getcmdpos()-2] ==# ' ' ? expand('%:p:h') : "\<C-P>"
+
+if environment == "prod"
+lua << EOF
+
+-- CiderLSP
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+
+-- Require CiderLSP and Diagnostics modules
+-- IMPORTANT: Must come after plugins are loaded
+require("lsp") -- CiderLSP
+require("diagnostics") -- Diagnostics
+
+EOF
+endif

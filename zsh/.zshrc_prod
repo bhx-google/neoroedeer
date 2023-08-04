@@ -14,3 +14,7 @@ clr[p4head]=124
 
 export PATH=$PATH:~/.local/bin
 alias buildfix='/google/data/ro/teams/ads-integrity/buildfix'
+
+if [ -r /google/data/ro/teams/dmgi/configs/google_xm_bashrc ] ; then
+  source /google/data/ro/teams/dmgi/configs/google_xm_bashrc
+fi
