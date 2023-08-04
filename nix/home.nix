@@ -21,4 +21,36 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.git = {
+    package = pkgs.gitAndTools.gitFull;
+    enable = true;
+    userName = "Bill Xing";
+    userEmail = "bhx@google.com";
+    extraConfig = {
+        core = {
+            editor = "nvim";
+        };
+    };
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git"];
+      theme = "robbyrussell";
+    };
+    history = {
+	    size = 100000;
+    };
+    initExtra = ''
+	    if [ -e /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh ];
+	    then
+		    . /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh;
+	    fi # added by Nix installer
+    '';
+  };
 }
