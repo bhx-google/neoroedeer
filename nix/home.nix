@@ -60,4 +60,14 @@
     source = "/usr/local/google/home/bhx/dotfiles/nvim/init.vim";
     target = "/usr/local/google/home/bhx/.config/nvim/init.vim";
   };
+  home.file.ciderlsp = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/nvim/lua/lsp.lua";
+    target = "/usr/local/google/home/bhx/.config/nvim/lua/lsp.lua";
+  };
+  home.file.diagnostics = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/nvim/lua/diagnostics.lua";
+    target = "/usr/local/google/home/bhx/.config/nvim/lua/diagnostics.lua";
+  };
 }

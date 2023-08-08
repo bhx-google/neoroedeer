@@ -1,6 +1,6 @@
 " Plugins
 
-lua <<EOF
+lua << EOF
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -35,6 +35,27 @@ return require('packer').startup(function(use)
   use 'airblade/vim-gitgutter'
   use 'mhinz/neovim-remote'
   use 'lervag/vimtex'
+  use {
+  'nvim-telescope/telescope.nvim', tag = '0.1.2',
+  requires = { {'nvim-lua/plenary.nvim'} }
+  }
+
+  use("hrsh7th/cmp-buffer")
+  use("hrsh7th/cmp-nvim-lsp")
+  use("hrsh7th/cmp-nvim-lua")
+  use("hrsh7th/cmp-path")
+  use("hrsh7th/cmp-vsnip")
+  use("hrsh7th/nvim-cmp")
+  use("hrsh7th/vim-vsnip")
+  use("neovim/nvim-lspconfig")
+  use("onsails/lspkind.nvim")
+
+  -- Diagnostics
+  use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"})
+
+  use 'sso://googler@user/vintharas/telescope-codesearch.nvim'
+  use 'sso://googler@user/tylersaunders/telescope-fig.nvim'
+  use 'sso://googler@user/aktau/telescope-citc.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -42,6 +63,40 @@ return require('packer').startup(function(use)
     require('packer').sync()
   end
 end)
+EOF
+
+lua << EOF
+-- CiderLSP
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+require("lsp")
+
+-- Diagnostics
+require("diagnostics")
+EOF
+
+lua <<EOF
+
+vim.api.nvim_set_keymap('n', '<leader>sf',
+  [[<cmd>lua require('telescope').extensions.codesearch.find_files{}<CR>]],
+  { noremap = true, silent=true }
+)
+
+-- Search using codesearch queries.
+vim.api.nvim_set_keymap('n', '<leader>ss',
+  [[<cmd>lua require('telescope').extensions.codesearch.find_query{}<CR>]],
+  { noremap = true, silent=true }
+)
+
+vim.api.nvim_set_keymap('n', '<leader>sm',
+  [[<cmd>lua require('telescope').extensions.citc.modified{}<CR>]],
+  { noremap = true, silent=true }
+)
+
+vim.api.nvim_set_keymap('n', '<leader>sw',
+  [[<cmd>lua require('telescope').extensions.citc.workspaces{}<CR>]],
+  { noremap = true, silent=true }
+)
+
 EOF
 
 let g:airline_powerline_fonts = 1
