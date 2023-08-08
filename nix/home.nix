@@ -35,6 +35,10 @@
     };
   };
 
+  home.sessionVariables = {
+    PATH = "$HOME/local/bin:$PATH";
+  };
+
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -45,13 +49,22 @@
       theme = "robbyrussell";
     };
     history = {
-	    size = 100000;
+        size = 100000;
     };
     initExtra = ''
-	    if [ -e /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh ];
-	    then
-		    . /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh;
-	    fi # added by Nix installer
+        if [ -e /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh ];
+        then
+            . /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh;
+        fi # added by Nix installer
+
+        if [ -e /etc/bash_completion.d/hgd ];
+        then
+            source /etc/bash_completion.d/hgd
+
+            source $HOME/dotfiles/zsh/zsh-async/async.zsh
+            source $HOME/dotfiles/zsh/goog_prompt.zsh
+            source $HOME/dotfiles/zsh/goog_prompt_customize.zsh
+        fi # source hgd
     '';
   };
 
@@ -69,5 +82,20 @@
     enable = true;
     source = "/usr/local/google/home/bhx/dotfiles/nvim/lua/diagnostics.lua";
     target = "/usr/local/google/home/bhx/.config/nvim/lua/diagnostics.lua";
+  };
+  home.file.tmux = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/tmux/.tmux.conf";
+    target = "/usr/local/google/home/bhx/.tmux.conf";
+  };
+  home.file.get_window = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/scripts/get_window.sh";
+    target = "/usr/local/google/home/bhx/local/bin/get_window.sh";
+  };
+  home.file.piper_helper = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/scripts/piper_helper.sh";
+    target = "/usr/local/google/home/bhx/local/bin/piper_helper.sh";
   };
 }
