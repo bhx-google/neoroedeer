@@ -1,6 +1,9 @@
 " Plugins
 
 lua << EOF
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -20,7 +23,8 @@ return require('packer').startup(function(use)
   use 'vimwiki/vimwiki'
   use 'frankier/neovim-colors-solarized-truecolor-only'
   use 'vim-airline/vim-airline'
-  -- use 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+  use({'nvim-tree/nvim-tree.lua',
+      requires = 'nvim-tree/nvim-web-devicons'})
   use 'scrooloose/nerdcommenter'
   use 'frace/vim-bubbles'
   use 'vhdirk/vim-cmake'
@@ -32,6 +36,7 @@ return require('packer').startup(function(use)
   use 'honza/vim-snippets'
   use 'easymotion/vim-easymotion'
   use 'tpope/vim-fugitive'
+  use 'sjl/splice.vim'
   use 'airblade/vim-gitgutter'
   use 'mhinz/neovim-remote'
   use 'lervag/vimtex'
@@ -96,7 +101,75 @@ vim.api.nvim_set_keymap('n', '<leader>sw',
   [[<cmd>lua require('telescope').extensions.citc.workspaces{}<CR>]],
   { noremap = true, silent=true }
 )
+vim.api.nvim_set_keymap('n', '<leader>tt',
+  [[<cmd>NvimTreeToggle<CR>]],
+  { noremap = true, silent=true }
+)
 
+vim.api.nvim_set_keymap('n', '<leader>tf',
+  [[<cmd>NvimTreeFindFile<CR>]],
+  { noremap = true, silent=true }
+)
+
+
+require('telescope').setup {
+  defaults =  {
+    layout_strategy = 'vertical',
+    -- Common paths in google3 repos are collapsed following the example of Cider
+    -- It is nice to keep this as a user config rather than part of
+    -- telescope-codesearch because it can be reused by other telescope pickers.
+    path_display = function(opts, path)
+      -- Do common substitutions
+      path = path:gsub("^/google/src/cloud/[^/]+/[^/]+/google3/", "google3/", 1)
+      path = path:gsub("^google3/java/com/google/", "g3/j/c/g/", 1)
+      path = path:gsub("^google3/javatests/com/google/", "g3/jt/c/g/", 1)
+      path = path:gsub("^google3/third_party/", "g3/3rdp/", 1)
+      path = path:gsub("^google3/", "g3/", 1)
+
+      -- Do truncation. This allows us to combine our custom display formatter
+      -- with the built-in truncation.
+      -- `truncate` handler in transform_path memoizes computed truncation length in opts.__length.
+      -- Here we are manually propagating this value between new_opts and opts.
+      -- We can make this cleaner and more complicated using metatables :)
+      local new_opts = {
+        path_display = {
+          truncate = true,
+        },
+        __length = opts.__length,
+      }
+      path = require('telescope.utils').transform_path(new_opts, path)
+      opts.__length = new_opts.__length
+      return path
+    end,
+  },
+  extensions = { -- this block is optional, and if omitted, defaults will be used
+    codesearch = {
+      experimental = true           -- enable results from google3/experimental
+    }
+  }
+}
+
+local function nvim_tree_on_attach(bufnr)
+  local api = require('nvim-tree.api')
+
+  local function opts(desc)
+    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  api.config.mappings.default_on_attach(bufnr)
+  -- override a default
+  -- vim.keymap.set('n', '<leader>n', api.tree.reload,                       opts('Refresh'))
+
+  -- add your mappings
+  -- vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
+  ---
+end
+
+require("nvim-tree").setup({
+  ---
+  on_attach = nvim_tree_on_attach,
+  ---
+})
 EOF
 
 let g:airline_powerline_fonts = 1
@@ -152,8 +225,8 @@ au BufReadPost * if &filetype !~ '^git\c' && line("'\"") > 0 && line("'\"") <= l
 \| exe "normal! g`\"" | endif
 
 " indent and linebreaks
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set nowrap
 set list listchars=tab:▸-,trail:·
@@ -172,7 +245,6 @@ set smartcase
 
 " key map
 let mapleader = "\\"
-map <leader>n :NERDTreeToggle<CR>
 
 let &makeprg = 'cmake --build build'
 map <F9> :make<CR>

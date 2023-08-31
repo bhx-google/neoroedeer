@@ -4,6 +4,7 @@
   home.packages = [
     pkgs.neovim
     pkgs.cmake
+    pkgs.htop
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -98,4 +99,15 @@
     source = "/usr/local/google/home/bhx/dotfiles/scripts/piper_helper.sh";
     target = "/usr/local/google/home/bhx/local/bin/piper_helper.sh";
   };
+  home.file.hgrc = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/google/.hgrc";
+    target = "/usr/local/google/home/bhx/.hgrc";
+  };
+  home.file.blazerc = {
+    enable = true;
+    source = "/usr/local/google/home/bhx/dotfiles/google/.blazerc";
+    target = "/usr/local/google/home/bhx/.blazerc";
+  };
+
 }

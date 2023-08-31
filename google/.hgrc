@@ -12,4 +12,4 @@ default.want_lgtm=startblock
 default.bug={get_parent_cl_tag("bug")}
 
 [templatealias]
-google_default_commit_description= '[Fungibility][] \n\nTesting:\n  * TODO(bhx)\n\nStartblock:\n  * always meet.\nStartblock:\n  * is passing TapPresubmit Analysis.\n  * and then\n  * remember\n  * add reviewer fungibility-devs+autoreview'
+google_default_commit_description= '[Conduit][] \n\nTesting:\n  * TODO(bhx)\n\nStartblock:\n  * always meet.\nStartblock:\n  * is passing TapPresubmit Analysis.\n  * and then\n  * remember\n'
