@@ -69,4 +69,10 @@ in {
         fi # source hgd
     '';
   };
+
+  home.file.amm = {
+    enable = true;
+    source = "/home/bhx/dotfiles/amm/amm";
+    target = "/home/bhx/local/bin/amm";
+  };
 }
