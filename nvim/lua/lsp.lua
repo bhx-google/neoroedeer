@@ -9,10 +9,24 @@ configs.ciderlsp = {
   default_config = {
     cmd = { "/google/bin/releases/cider/ciderlsp/ciderlsp", "--tooltag=nvim-cmp", "--noforward_sync_responses" },
     filetypes = { "c", "cpp", "java", "kotlin", "objc", "proto", "textproto", "go", "python", "bzl" },
-    root_dir = nvim_lsp.util.root_pattern("BUILD"),
+    root_dir = function(fname)
+        return string.match(fname, '(/google/src/cloud/[%w_-]+/[%w_-]+/google3/).+$')
+    end;
     settings = {},
   },
 }
+
+configs.analysislsp = {
+    default_config = {
+        cmd = { '/google/bin/users/lerm/glint-ale/analysis_lsp/server', '--lint_on_save=false', '--max_qps=10' },
+        filetypes = { "c", "cpp", "java", "kotlin", "objc", "proto", "textproto", "go", "python", "bzl" },
+        root_dir = function(fname)
+            return string.match(fname, '(/google/src/cloud/[%w_-]+/[%w_-]+/google3/).+$')
+        end;
+        settings = {},
+    },
+}
+
 
 -- 2. Configure CMP
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -68,6 +82,11 @@ cmp.setup({
   experimental = {
     native_menu = false,
     ghost_text = true,
+  },
+
+  performance = {
+   trigger_debounce_time = 500,
+   throttle = 550,
   },
 })
 

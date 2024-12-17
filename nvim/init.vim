@@ -29,6 +29,7 @@ return require('packer').startup(function(use)
   use 'frace/vim-bubbles'
   use 'vhdirk/vim-cmake'
   use 'tpope/vim-unimpaired'
+  use 'tpope/vim-surround'
   use 'mileszs/ack.vim'
   use 'MarcWeber/vim-addon-mw-utils'
   use 'tomtom/tlib_vim'
@@ -36,15 +37,16 @@ return require('packer').startup(function(use)
   use 'honza/vim-snippets'
   use 'easymotion/vim-easymotion'
   use 'tpope/vim-fugitive'
-  use 'sjl/splice.vim'
+  use "sindrets/diffview.nvim"
   use 'airblade/vim-gitgutter'
   use 'mhinz/neovim-remote'
   use 'lervag/vimtex'
+  use 'bkad/CamelCaseMotion'
+  use 'nvim-tree/nvim-web-devicons'
   use {
   'nvim-telescope/telescope.nvim', tag = '0.1.2',
   requires = { {'nvim-lua/plenary.nvim'} }
   }
-
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/cmp-nvim-lsp")
   use("hrsh7th/cmp-nvim-lua")
@@ -54,6 +56,9 @@ return require('packer').startup(function(use)
   use("hrsh7th/vim-vsnip")
   use("neovim/nvim-lspconfig")
   use("onsails/lspkind.nvim")
+  use("adigitoleo/haunt.nvim")
+  use("romgrk/barbar.nvim")
+  use("ludovicchabant/vim-lawrencium")
 
   -- Diagnostics
   use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"})
@@ -61,6 +66,20 @@ return require('packer').startup(function(use)
   use 'sso://googler@user/vintharas/telescope-codesearch.nvim'
   use 'sso://googler@user/tylersaunders/telescope-fig.nvim'
   use 'sso://googler@user/aktau/telescope-citc.nvim'
+  use {
+    'sso://@user/vvvv/ai.nvim',
+    requires = {
+      'rcarriga/nvim-notify',
+      'nvim-lua/plenary.nvim'
+    }
+  }
+  use {
+    'sso://@user/chmnchiang/google-comments', requires = { 'nvim-lua/plenary.nvim' }
+  }
+  use({
+    'sso://googler@user/vicentecaycedo/cmp-buganizer',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
@@ -81,8 +100,33 @@ EOF
 
 lua <<EOF
 
+require("haunt").setup({
+  window = {
+    width_frac = 0.9,
+    height_frac = 0.9,
+    winblend = 0,
+  }
+})
+
+local cmp = require("cmp")
+
+cmp.setup({
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "path" },
+    { name = "vim_vsnip" },
+    { name = "buffer",   keyword_length = 5 },
+    { name = "buganizer" },
+  },
+})
+
 vim.api.nvim_set_keymap('n', '<leader>sf',
   [[<cmd>lua require('telescope').extensions.codesearch.find_files{}<CR>]],
+  { noremap = true, silent=true }
+)
+
+vim.api.nvim_set_keymap('n', '<leader>tm',
+  [[<cmd>:HauntTerm -t zsh<CR>]],
   { noremap = true, silent=true }
 )
 
@@ -122,6 +166,8 @@ require('telescope').setup {
       -- Do common substitutions
       path = path:gsub("^/google/src/cloud/[^/]+/[^/]+/google3/", "google3/", 1)
       path = path:gsub("^google3/java/com/google/", "g3/j/c/g/", 1)
+      path = path:gsub("^google3/analysis/conduit", "g3/a/c", 1)
+      path = path:gsub("^google3/analysis/deepblue", "g3/a/d", 1)
       path = path:gsub("^google3/javatests/com/google/", "g3/jt/c/g/", 1)
       path = path:gsub("^google3/third_party/", "g3/3rdp/", 1)
       path = path:gsub("^google3/", "g3/", 1)
@@ -170,6 +216,22 @@ require("nvim-tree").setup({
   on_attach = nvim_tree_on_attach,
   ---
 })
+
+require('google.comments').setup()
+
+vim.api.nvim_set_keymap('n', ']lc',
+  [[<Cmd>lua require('google.comments').goto_next_comment()<CR>]],
+  { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '[lc',
+  [[<Cmd>lua require('google.comments').goto_prev_comment()<CR>]],
+  { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>lc',
+  [[<Cmd>lua require('google.comments').toggle_line_comments()<CR>]],
+  { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>ac',
+  [[<Cmd>lua require('google.comments').show_all_comments()<CR>]],
+  { noremap = true, silent = true })
+
 EOF
 
 let g:airline_powerline_fonts = 1
@@ -199,7 +261,7 @@ let g:vimwiki_list = [{
 
 set termguicolors
 set background=light
-color solarized
+colorscheme solarized
 set number
 set ruler
 set mouse=a
@@ -247,7 +309,7 @@ set smartcase
 let mapleader = "\\"
 
 let &makeprg = 'cmake --build build'
-map <F9> :make<CR>
+map <F9> :HauntTerm<CR>
 
 " mappings taken from janus
 
@@ -255,8 +317,8 @@ map <F9> :make<CR>
 nmap <silent> <F4> :set invpaste<CR>:set paste?<CR>
 imap <silent> <F4> <ESC>:set invpaste<CR>:set paste?<CR>
 
-" format the entire file
-nnoremap <leader>fef :normal! gg=G``<CR>
+" camel motion key to comma
+let g:camelcasemotion_key = ','
 
 " upper/lower word
 nmap <leader>u mQviwU`Q

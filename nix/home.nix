@@ -5,6 +5,7 @@
     pkgs.neovim
     pkgs.cmake
     pkgs.htop
+    pkgs.rustup
   ];
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
@@ -53,6 +54,7 @@
         size = 100000;
     };
     initExtra = ''
+        bindkey '^R' history-incremental-pattern-search-backward;
         if [ -e /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh ];
         then
             . /usr/local/google/home/bhx/.nix-profile/etc/profile.d/nix.sh;
