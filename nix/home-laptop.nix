@@ -75,4 +75,10 @@ in {
     source = "/home/bhx/dotfiles/amm/amm";
     target = "/home/bhx/local/bin/amm";
   };
+
+  home.file.alacritty = {
+    enable = true;
+    source = "/home/bhx/dotfiles/alacritty/alacritty.toml";
+    target = "/home/bhx/.config/alacritty/alacritty.toml";
+  };
 }
