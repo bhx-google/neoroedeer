@@ -49,6 +49,7 @@ cmp.setup({
   }),
 
   sources = {
+    { name = "buganizer" },
     { name = "nvim_lsp" },
     { name = "path" },
     { name = "vim_vsnip" },

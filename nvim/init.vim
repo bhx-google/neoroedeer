@@ -23,8 +23,6 @@ return require('packer').startup(function(use)
   use 'vimwiki/vimwiki'
   use 'frankier/neovim-colors-solarized-truecolor-only'
   use 'vim-airline/vim-airline'
-  use({'nvim-tree/nvim-tree.lua',
-      requires = 'nvim-tree/nvim-web-devicons'})
   use 'scrooloose/nerdcommenter'
   use 'frace/vim-bubbles'
   use 'vhdirk/vim-cmake'
@@ -42,10 +40,13 @@ return require('packer').startup(function(use)
   use 'mhinz/neovim-remote'
   use 'lervag/vimtex'
   use 'bkad/CamelCaseMotion'
-  use 'nvim-tree/nvim-web-devicons'
   use {
   'nvim-telescope/telescope.nvim', tag = '0.1.2',
   requires = { {'nvim-lua/plenary.nvim'} }
+  }
+  use {
+    "nvim-telescope/telescope-file-browser.nvim",
+    requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
   }
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/cmp-nvim-lsp")
@@ -59,6 +60,7 @@ return require('packer').startup(function(use)
   use("adigitoleo/haunt.nvim")
   use("romgrk/barbar.nvim")
   use("ludovicchabant/vim-lawrencium")
+  use {'ojroques/nvim-osc52'}
 
   -- Diagnostics
   use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons"})
@@ -78,6 +80,10 @@ return require('packer').startup(function(use)
   }
   use({
     'sso://googler@user/vicentecaycedo/cmp-buganizer',
+    config = function()
+      require('cmp-buganizer').setup({
+      })
+    end,
     requires = { {'nvim-lua/plenary.nvim'} }
   })
 
@@ -145,13 +151,13 @@ vim.api.nvim_set_keymap('n', '<leader>sw',
   [[<cmd>lua require('telescope').extensions.citc.workspaces{}<CR>]],
   { noremap = true, silent=true }
 )
-vim.api.nvim_set_keymap('n', '<leader>tt',
-  [[<cmd>NvimTreeToggle<CR>]],
+vim.api.nvim_set_keymap('n', '<leader>tf',
+  [[<cmd>:Telescope file_browser path=%:p:h select_buffer=true<CR>]],
   { noremap = true, silent=true }
 )
 
-vim.api.nvim_set_keymap('n', '<leader>tf',
-  [[<cmd>NvimTreeFindFile<CR>]],
+vim.api.nvim_set_keymap('n', '<leader>tt',
+  [[<cmd>:Telescope file_browser<CR>]],
   { noremap = true, silent=true }
 )
 
@@ -191,33 +197,22 @@ require('telescope').setup {
   extensions = { -- this block is optional, and if omitted, defaults will be used
     codesearch = {
       experimental = true           -- enable results from google3/experimental
-    }
-  }
+    },
+    file_browser = {
+      hijack_netrw = true
+    },
+  },
 }
-
-local function nvim_tree_on_attach(bufnr)
-  local api = require('nvim-tree.api')
-
-  local function opts(desc)
-    return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-  end
-
-  api.config.mappings.default_on_attach(bufnr)
-  -- override a default
-  -- vim.keymap.set('n', '<leader>n', api.tree.reload,                       opts('Refresh'))
-
-  -- add your mappings
-  -- vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
-  ---
-end
-
-require("nvim-tree").setup({
-  ---
-  on_attach = nvim_tree_on_attach,
-  ---
-})
+require("telescope").load_extension "file_browser"
 
 require('google.comments').setup()
+
+require('osc52').setup {
+  tmux_passthrough = true
+}
+vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, {expr = true})
+vim.keymap.set('n', '<leader>cc', '<leader>c_', {remap = true})
+vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
 
 vim.api.nvim_set_keymap('n', ']lc',
   [[<Cmd>lua require('google.comments').goto_next_comment()<CR>]],
