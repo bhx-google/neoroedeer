@@ -18,3 +18,6 @@ alias buildfix='/google/data/ro/teams/ads-integrity/buildfix'
 if [ -r /google/data/ro/teams/dmgi/configs/google_xm_bashrc ] ; then
   source /google/data/ro/teams/dmgi/configs/google_xm_bashrc
 fi
+
+source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+
