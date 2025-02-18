@@ -1,3 +1,0 @@
-[submodule "zsh/zsh-async"]
-	path = zsh/zsh-async
-	url = https://github.com/mafredri/zsh-async.git

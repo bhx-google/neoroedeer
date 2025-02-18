@@ -1,4 +1,0 @@
-text/html; elinks -dump -dump-color-mode 1; copiousoutput;
-text/*; ~/copy-to-dir-mutt.sh %s application/*; ~/copy-to-dir-mutt.sh %s image/*; ~/copy-to-dir-mutt.sh %s audio/*; ~/copy-to-dir-mutt.sh %s
-image/*; ~/copy-to-dir-mutt.sh %s application/*; ~/copy-to-dir-mutt.sh %s image/*; ~/copy-to-dir-mutt.sh %s audio/*; ~/copy-to-dir-mutt.sh %s
-application/pdf; ~/copy-to-dir-mutt.sh %s application/*; ~/copy-to-dir-mutt.sh %s image/*; ~/copy-to-dir-mutt.sh %s audio/*; ~/copy-to-dir-mutt.sh %s

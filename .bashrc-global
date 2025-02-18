@@ -1,3 +1,0 @@
-export EDITOR=nvim
-alias tmux=tmx2
-tmux-work() { tmx2 new-session -A -s ${1:-work}; }
