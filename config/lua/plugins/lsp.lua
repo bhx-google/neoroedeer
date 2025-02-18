@@ -19,11 +19,11 @@ return {
 						if client.workspace_folders then
 							local path = client.workspace_folders[1].name
 							if
-								path ~= vim.fn.stdpath("config")
-								and (
-									vim.loop.fs_stat(path .. "/.luarc.json")
-									or vim.loop.fs_stat(path .. "/.luarc.jsonc")
-								)
+									path ~= vim.fn.stdpath("config")
+									and (
+										vim.loop.fs_stat(path .. "/.luarc.json")
+										or vim.loop.fs_stat(path .. "/.luarc.jsonc")
+									)
 							then
 								return
 							end
@@ -57,12 +57,22 @@ return {
 		},
 		config = function(_, opts)
 			local lspconfig = require("lspconfig")
-			for server, config in pairs(opts.servers) do
-				-- passing config.capabilities to blink.cmp merges with the capabilities in your
-				-- `opts[server].capabilities, if you've defined it
-				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-				lspconfig[server].setup(config)
+			local lsp_configs = require("lspconfig.configs")
+
+			for server, config in pairs(neoroedeer.extra_options.extra_lsps) do
+				lsp_configs[server] = config
 			end
+
+			local config_by_table = function(t)
+				for server, config in pairs(t) do
+					-- passing config.capabilities to blink.cmp merges with the capabilities in your
+					-- `opts[server].capabilities, if you've defined it
+					config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+					lspconfig[server].setup(config)
+				end
+			end
+			config_by_table(opts.servers)
+			config_by_table(neoroedeer.extra_options.extra_lsps_opts)
 		end,
 	},
 	{
