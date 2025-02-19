@@ -108,6 +108,9 @@ return {
       completion = {
         documentation = {
           auto_show = true,
+          window = {
+            border = "single",
+          },
         },
         list = {
           selection = {
@@ -132,8 +135,15 @@ return {
         default = { "lsp", "path", "snippets", "buffer" },
       },
     },
+    keys = {
+      { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
+      { "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>" },
+      { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>" },
+      { "gr", "<cmd>lua vim.lsp.buf.references()<CR>" },
+      { "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+    },
     build = "cargo build --release",
-    opts_extend = { "sources.default" },
+    opts_extend = { "sources.default", "sources.providers" },
   },
   {
     "folke/trouble.nvim",
