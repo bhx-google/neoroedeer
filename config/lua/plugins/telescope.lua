@@ -5,7 +5,6 @@ return {
       "nvim-lua/plenary.nvim",
     },
     opts = {
-      defaults = {},
       extensions = {
         file_browser = {
           hijack_netrw = true,
@@ -14,6 +13,7 @@ return {
           layout_config = { width = 0.55, height = 0.55 },
         },
       },
+      opts_extend = { "defaults.layout_strategy", "defaults.path_display" },
     },
   },
   {
