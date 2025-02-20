@@ -109,7 +109,7 @@ return {
         documentation = {
           auto_show = true,
           window = {
-            border = "single",
+            border = "double",
           },
         },
         list = {
@@ -118,6 +118,7 @@ return {
           },
         },
         menu = {
+          border = "single",
           draw = {
             treesitter = { "lsp" },
             columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
@@ -127,6 +128,9 @@ return {
 
       signature = {
         enabled = true,
+        window = {
+          border = "single",
+        },
       },
 
       -- Default list of enabled providers defined so that you can extend it
@@ -242,9 +246,17 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
+    opts = {},
     lazy = false,
     config = function()
-      require("refactoring").setup()
+      require("refactoring").setup(opts)
+    end,
+  },
+  {
+    "nvim-lua/lsp-status.nvim",
+    config = function()
+      local lsp_status = require("lsp-status")
+      lsp_status.register_progress()
     end,
   },
 }

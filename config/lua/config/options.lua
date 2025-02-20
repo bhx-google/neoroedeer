@@ -15,3 +15,4 @@ vim.opt.modelineexpr = true
 vim.opt.cursorline = true
 
 vim.opt.termguicolors = true
+vim.opt.wrap = false
