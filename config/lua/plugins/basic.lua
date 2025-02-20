@@ -175,8 +175,22 @@ return {
   { "frace/vim-bubbles" },
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/lsp-status.nvim" },
+    opts = {
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = { "filename" },
+        lualine_x = {
+          "encoding",
+          "fileformat",
+          "filetype",
+          { lsp_status, draw_empty = true },
+        },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+    },
   },
   {
     "akinsho/bufferline.nvim",

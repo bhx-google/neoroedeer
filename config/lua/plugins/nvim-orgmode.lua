@@ -99,5 +99,28 @@ return {
       -- paths to emacs packages to additionally load
       load_paths = { "~/projects/ob-rust" },
     },
+    {
+      "<leader>ofr",
+      function()
+        require("telescope").extensions.orgmode.refile_heading({})
+      end,
+      mode = "n",
+    },
+    {
+      "<leader>ofh",
+      function()
+        require("telescope").extensions.orgmode.search_headings({})
+      end,
+      mode = "n",
+    },
+    {
+      "<leader>off",
+      function()
+        require("telescope").extensions.orgmode.search_headings({
+          mode = "orgfiles",
+        })
+      end,
+      mode = "n",
+    },
   },
 }
