@@ -50,6 +50,7 @@ return {
             Lua = {},
           },
         },
+        ruby_lsp = {},
       },
     },
     config = function(_, opts)
