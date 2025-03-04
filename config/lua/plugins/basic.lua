@@ -76,4 +76,5 @@ return {
   { "sindrets/diffview.nvim" },
   { "echasnovski/mini.pairs", version = false, config = true, opts = {} },
   { "echasnovski/mini.ai", version = false, config = true, opts = {} },
+  { "echasnovski/mini.surround", version = false, config = true, opts = {} },
 }
