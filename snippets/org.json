@@ -1,0 +1,10 @@
+{
+  "src": {
+    "prefix": "src",
+    "body": [
+      "#+NAME: ${1:name}",
+      "#+BEGIN_SRC ${2:lang}",
+      "#+END_SRC"
+    ]
+  }
+}

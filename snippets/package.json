@@ -1,0 +1,10 @@
+{
+  "name": "snippets",
+  "contributes": {
+    "snippets": [
+      { "language": "org", "path": "./org.json" },
+      { "language": "norg", "path": "./org.json" },
+      { "language": "all", "path": "./allFiletypes.json" }
+    ]
+  }
+}
