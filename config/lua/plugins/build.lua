@@ -61,12 +61,14 @@ return {
         function()
           require("bazel").run_here("build", "-c opt", vim.g.bazel_config)
         end,
+        desc = "Build the current buffer (blaze).",
       },
       {
         "<leader>bt",
         function()
           require("bazel").run_here("test", "-c opt", vim.g.bazel_config)
         end,
+        desc = "Test the current buffer (blaze).",
       },
     },
   },
