@@ -15,6 +15,18 @@ return {
       },
       opts_extend = { "defaults.layout_strategy", "defaults.path_display" },
     },
+    keys = {
+      {
+        "<leader>tt",
+        "<cmd>Telescope<CR>",
+        desc = "Activate search (Telescope)",
+      },
+      {
+        "<leader>tb",
+        "<cmd>Telescope buffers<CR>",
+        desc = "View buffers.",
+      },
+    },
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",
@@ -31,12 +43,14 @@ return {
     },
     keys = {
       {
-        "<leader>tf",
+        "<leader>ff",
         "<cmd>Telescope file_browser path=%:p:h select_buffer=true<CR>",
+        desc = "Open file tree for current file.",
       },
       {
-        "<leader>tt",
+        "<leader>fp",
         "<cmd>Telescope file_browser<CR>",
+        desc = "Open file tree for current working directory",
       },
     },
     config = function()

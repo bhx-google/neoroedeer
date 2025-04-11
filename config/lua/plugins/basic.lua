@@ -77,9 +77,35 @@ return {
   { "echasnovski/mini.pairs", version = false, config = true, opts = {} },
   { "echasnovski/mini.ai", version = false, config = true, opts = {} },
   { "echasnovski/mini.surround", version = false, config = true, opts = {} },
+  { "echasnovski/mini.splitjoin", version = false, config = true, opts = {} },
   {
     "MagicDuck/grug-far.nvim",
     config = true,
     opts = {},
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      spec = {
+        {
+          mode = { "n", "v" },
+          { "<leader>b", group = "build" },
+          { "<leader>f", group = "file" },
+          { "<leader>t", group = "find / search" },
+          { "<leader>x", group = "outline / diagnostics" },
+          { "g", group = "goto" },
+        },
+      },
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
   },
 }
