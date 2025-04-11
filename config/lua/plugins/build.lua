@@ -59,6 +59,13 @@ return {
       {
         "<leader>bb",
         function()
+          require("bazel").run_last()
+        end,
+        desc = "Re-run the last target.",
+      },
+      {
+        "<leader>bb",
+        function()
           require("bazel").run_here("build", "-c opt", vim.g.bazel_config)
         end,
         desc = "Build the current buffer (blaze).",
