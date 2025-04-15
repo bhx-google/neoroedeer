@@ -51,6 +51,7 @@ return {
           },
         },
         ruby_lsp = {},
+        rust_analyzer = {},
       },
     },
     config = function(_, opts)
@@ -259,5 +260,14 @@ return {
       local lsp_status = require("lsp-status")
       lsp_status.register_progress()
     end,
+  },
+  {
+    "yarospace/lua-console.nvim",
+    lazy = true,
+    keys = {
+      { "`", desc = "Lua-console - toggle" },
+      { "<Leader>`", desc = "Lua-console - attach to buffer" },
+    },
+    opts = {},
   },
 }
