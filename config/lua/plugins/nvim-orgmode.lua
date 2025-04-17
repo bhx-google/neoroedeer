@@ -88,7 +88,6 @@ return {
   {
     "mrshmllow/orgmode-babel.nvim",
     url = "https://bearcave.hoppinglife.com/snmyj/orgmode-babel.nvim.git",
-    dev = true,
     dependencies = {
       "nvim-orgmode/orgmode",
       "nvim-treesitter/nvim-treesitter",
