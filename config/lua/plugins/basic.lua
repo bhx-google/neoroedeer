@@ -52,23 +52,24 @@ return {
     },
     keys = {
       {
-        "<leader>c",
+        "<leader>ey",
         function()
           require("osc52").copy_operator()
         end,
         expr = true,
         mode = "n",
+        desc = "Copy to osc52 (normal).",
       },
       {
-        "<leader>c",
+        "<leader>ec",
         function()
           require("osc52").copy_visual()
         end,
         mode = "v",
+        desc = "Copy to osc52 (visual).",
       },
     },
   },
-  { "frace/vim-bubbles" },
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons", "nvim-lua/lsp-status.nvim" },
@@ -100,9 +101,43 @@ return {
   { "echasnovski/mini.surround", version = false, config = true, opts = {} },
   { "echasnovski/mini.splitjoin", version = false, config = true, opts = {} },
   {
+    "echasnovski/mini.move",
+    version = false,
+    config = true,
+    opts = {
+      mappings = {
+        -- Move visual selection in Visual mode. Defaults are Alt (Meta) + hjkl.
+        left = "<C-h>",
+        right = "<C-l>",
+        down = "<C-j>",
+        up = "<C-k>",
+
+        -- Move current line in Normal mode
+        line_left = "<C-h>",
+        line_right = "<C-l>",
+        line_down = "<C-j>",
+        line_up = "<C-k>",
+      },
+    },
+  },
+  {
     "MagicDuck/grug-far.nvim",
     config = true,
     opts = {},
+    keys = {
+      {
+        "<leader>er",
+        function()
+          local grug = require("grug-far")
+          grug.open({
+            transient = true,
+            prefills = {
+              paths = vim.fn.expand("%"),
+            },
+          })
+        end,
+      },
+    },
   },
   {
     "folke/which-key.nvim",
@@ -116,6 +151,9 @@ return {
           { "<leader>t", group = "find / search" },
           { "<leader>x", group = "outline / diagnostics." },
           { "<leader>o", group = "Orgmode." },
+          { "<leader>d", group = "diff" },
+          { "<leader>c", group = "code" },
+          { "<leader>e", group = "edit" },
           { "g", group = "goto" },
         },
       },

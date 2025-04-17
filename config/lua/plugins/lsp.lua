@@ -13,6 +13,39 @@ return {
 
     -- example using `opts` for defining servers
     opts = {
+      ---@type vim.diagnostic.Opts
+      diagnostics = {
+        underline = true,
+        update_in_insert = false,
+        virtual_text = {
+          spacing = 4,
+          source = "if_many",
+          prefix = "●",
+          -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+          -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+          -- prefix = "icons",
+        },
+        severity_sort = true,
+        -- signs = {
+        --   text = {
+        --     [vim.diagnostic.severity.ERROR] = LazyVim.config.icons.diagnostics.Error,
+        --     [vim.diagnostic.severity.WARN] = LazyVim.config.icons.diagnostics.Warn,
+        --     [vim.diagnostic.severity.HINT] = LazyVim.config.icons.diagnostics.Hint,
+        --     [vim.diagnostic.severity.INFO] = LazyVim.config.icons.diagnostics.Info,
+        --   },
+        -- },
+      },
+      -- provide the inlay hints.
+      inlay_hints = {
+        enabled = true,
+        exclude = { "vue" }, -- filetypes for which you don't want to enable inlay hints
+      },
+      -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+      -- Be aware that you also will need to properly configure your LSP server to
+      -- provide the code lenses.
+      codelens = {
+        enabled = false,
+      },
       servers = {
         lua_ls = {
           on_init = function(client)
@@ -73,6 +106,16 @@ return {
       config_by_table(opts.servers)
       config_by_table(neoroedeer.extra_options.extra_lsps_opts)
     end,
+    keys = {
+      { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go to definition" },
+      { "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", desc = "Go to declaration" },
+      { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Go to implementation" },
+      { "gr", "<cmd>lua vim.lsp.buf.references()<CR>", desc = "Find references" },
+      { "<M-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", desc = "Show signature help" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
+      { "<leader>cl", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
+      { "<leader>cL", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+    },
   },
   {
     "saghen/blink.cmp",
@@ -140,13 +183,6 @@ return {
       sources = {
         default = { "lsp", "path", "snippets", "buffer" },
       },
-    },
-    keys = {
-      { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", desc = "Go to definition" },
-      { "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", desc = "Go to declaration" },
-      { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Go to implementation" },
-      { "gr", "<cmd>lua vim.lsp.buf.references()<CR>", desc = "Find references" },
-      { "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", desc = "Show signature help" },
     },
     build = "cargo build --release",
     opts_extend = { "sources.default", "sources.providers" },
