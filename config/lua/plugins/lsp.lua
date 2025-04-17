@@ -112,9 +112,9 @@ return {
       { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Go to implementation" },
       { "gr", "<cmd>lua vim.lsp.buf.references()<CR>", desc = "Find references" },
       { "<M-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", desc = "Show signature help" },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
-      { "<leader>cl", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
-      { "<leader>cL", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
+      { "<leader>cl", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" } },
+      { "<leader>cL", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" } },
     },
   },
   {
