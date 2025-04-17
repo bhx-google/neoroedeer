@@ -92,7 +92,11 @@ return {
       local lsp_configs = require("lspconfig.configs")
 
       for server, config in pairs(neoroedeer.extra_options.extra_lsps) do
-        lsp_configs[server] = config
+        if type(config) == "function" then
+          lsp_configs[server] = config()
+        else
+          lsp_configs[server] = config
+        end
       end
 
       local config_by_table = function(t)
