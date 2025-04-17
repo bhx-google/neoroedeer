@@ -10,7 +10,7 @@ return {
       },
       { "saghen/blink.cmp" },
     },
-    event = "VeryLazy",
+    lazy = false,
     -- example using `opts` for defining servers
     opts = {
       ---@type vim.diagnostic.Opts
