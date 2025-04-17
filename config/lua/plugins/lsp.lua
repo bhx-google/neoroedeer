@@ -1,5 +1,30 @@
 return {
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    opts = {
+      highlight = { enable = true },
+      indent = { enable = true },
+    },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<leader>em",
+        node_incremental = "<leader>em",
+        node_decremental = "<leader>el",
+        scope_incremental = false,
+      },
+      textobjects = {
+        move = {
+          enable = true,
+          goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },
+          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]A"] = "@parameter.inner" },
+          goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer", ["[a"] = "@parameter.inner" },
+          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
+        },
+      },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -288,9 +313,95 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-    opts = {},
-    lazy = false,
-    config = function()
+    opts = {
+      show_success_message = true,
+    },
+    keys = {
+      { "<leader>cr", "", desc = "+refactor", mode = { "n", "v" } },
+      -- {
+      --   "<leader>crs",
+      --   pick,
+      --   mode = "v",
+      --   desc = "Refactor",
+      -- },
+      {
+        "<leader>cri",
+        function()
+          require("refactoring").refactor("Inline Variable")
+        end,
+        mode = { "n", "v" },
+        desc = "Inline Variable",
+      },
+      {
+        "<leader>crb",
+        function()
+          require("refactoring").refactor("Extract Block")
+        end,
+        desc = "Extract Block",
+      },
+      {
+        "<leader>crf",
+        function()
+          require("refactoring").refactor("Extract Block To File")
+        end,
+        desc = "Extract Block To File",
+      },
+      {
+        "<leader>crP",
+        function()
+          require("refactoring").debug.printf({ below = false })
+        end,
+        desc = "Debug Print",
+      },
+      {
+        "<leader>crp",
+        function()
+          require("refactoring").debug.print_var({ normal = true })
+        end,
+        desc = "Debug Print Variable",
+      },
+      {
+        "<leader>crc",
+        function()
+          require("refactoring").debug.cleanup({})
+        end,
+        desc = "Debug Cleanup",
+      },
+      {
+        "<leader>crf",
+        function()
+          require("refactoring").refactor("Extract Function")
+        end,
+        mode = "v",
+        desc = "Extract Function",
+      },
+      {
+        "<leader>crF",
+        function()
+          require("refactoring").refactor("Extract Function To File")
+        end,
+        mode = "v",
+        desc = "Extract Function To File",
+      },
+      {
+        "<leader>crx",
+        function()
+          require("refactoring").refactor("Extract Variable")
+        end,
+        mode = "v",
+        desc = "Extract Variable",
+      },
+      {
+        "<leader>crp",
+        function()
+          require("refactoring").debug.print_var()
+        end,
+        mode = "v",
+        desc = "Debug Print Variable",
+      },
+    },
+    event = { "BufReadPre", "BufNewFile" },
+    config = function(_, opts)
       require("refactoring").setup(opts)
     end,
   },

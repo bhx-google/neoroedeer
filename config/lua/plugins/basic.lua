@@ -93,7 +93,11 @@ return {
     "akinsho/bufferline.nvim",
     version = "*",
     dependencies = "nvim-tree/nvim-web-devicons",
-    opts = {},
+    opts = {
+      options = {
+        diagnostics = "nvim_lsp",
+      },
+    },
   },
   { "sindrets/diffview.nvim" },
   { "echasnovski/mini.pairs", version = false, config = true, opts = {} },
