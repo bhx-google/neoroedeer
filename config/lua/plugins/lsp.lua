@@ -113,23 +113,13 @@ return {
       },
     },
     config = function(_, opts)
-      local lspconfig = require("lspconfig")
-      local lsp_configs = require("lspconfig.configs")
-
-      for server, config in pairs(neoroedeer.extra_options.extra_lsps) do
-        if type(config) == "function" then
-          lsp_configs[server] = config()
-        else
-          lsp_configs[server] = config
-        end
-      end
-
       local config_by_table = function(t)
         for server, config in pairs(t) do
           -- passing config.capabilities to blink.cmp merges with the capabilities in your
           -- `opts[server].capabilities, if you've defined it
           config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-          lspconfig[server].setup(config)
+          vim.lsp.config[server] = config
+          vim.lsp.enable(server)
         end
       end
       config_by_table(opts.servers)
