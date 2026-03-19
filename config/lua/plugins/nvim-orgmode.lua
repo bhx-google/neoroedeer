@@ -60,7 +60,9 @@ return {
       {
         "<leader>ofr",
         function()
-          require("telescope").extensions.orgmode.refile_heading({})
+          require("telescope").extensions.orgmode.refile_heading({
+            layout_strategy = "horizontal",
+          })()
         end,
         mode = "n",
         desc = "Refile current heading.",
@@ -68,7 +70,9 @@ return {
       {
         "<leader>ofh",
         function()
-          require("telescope").extensions.orgmode.search_headings({})
+          require("telescope").extensions.orgmode.search_headings({
+            layout_strategy = "horizontal",
+          })
         end,
         mode = "n",
         desc = "Search for heaindgs.",
@@ -77,6 +81,7 @@ return {
         "<leader>off",
         function()
           require("telescope").extensions.orgmode.search_headings({
+            layout_strategy = "horizontal",
             mode = "orgfiles",
           })
         end,
